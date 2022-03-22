@@ -21,10 +21,6 @@ function setup() {
     (new Tile(...options[4], createVector(), 20)).rotate(6 / 5 * HALF_PI)
   ];
 
-  const getDistVec = function (tile, i, j) {
-    return tile.points[i].copy().sub(tile.points[j]);
-  };
-
   const hexoffconst = getDistVec(samples[0], 5, 7).add(getDistVec(samples[1], 3, 4));
   const bowoffconst = getDistVec(samples[0], 7, 0);
   const horoffconst = createVector(getDistVec(samples[0], 0, 5).mag() + getDistVec(samples[1], 0, 3).mag());
@@ -34,7 +30,7 @@ function setup() {
   for (let i = -1; i < 9; ++i) {
     const horperoff = horperconst.copy().mult(abs(i) % 2);
     const veroff = veroffconst.copy().mult(i);
-    for (let j = -1; j < 5; ++j) {
+    for (let j = -1; j < 9; ++j) {
       const offset = horoffconst.copy().mult(j).add(horperoff).add(veroff);
       tiles.push(samples[0].copy().move(offset));
       tiles.push(samples[1].copy().move(offset.copy().add(hexoffconst)));

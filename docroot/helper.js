@@ -89,3 +89,7 @@ function sign(val) {
     return -1;
   return 1;
 }
+
+function getDistVec(tile, i, j) {
+  return tile.points[i].copy().sub(tile.points[j]);
+};
