@@ -1,3 +1,6 @@
+/**
+ * @class Класс для хранения вершин тайла, а так же цвета, длины внутренних girih
+ */
 class Tile {
   constructor(angles = [], color = "#000000", position = createVector(), dashlen = 25, angleMode = DEGREES) {
     this.angles = angles.map(a => a);
@@ -14,6 +17,10 @@ class Tile {
       point.add(vel);
     }
   }
+  /**
+   * Скопировать все вершины, цвет и длину girih
+   * @returns {Tile} Копию тайла
+   */
   copy() {
     const t = new Tile();
     t.angles = this.angles.copy();
@@ -22,6 +29,9 @@ class Tile {
     t.dashlen = this.dashlen;
     return t;
   }
+  /**
+   * Отрисовка
+   */
   draw() {
     push();
     fill(this.color);
@@ -45,9 +55,9 @@ class Tile {
     }
   }
   /**
- * @param {Tile} poly
- * @returns {boolean} do polygons overlap
- */
+   * @param {Tile} poly
+   * @returns {boolean} do polygons overlap
+   */
   overlaps(poly) {
     for (let pt of this.points) {
       if (inside(pt, poly.points))
@@ -55,16 +65,37 @@ class Tile {
     }
     return false;
   }
+  /**
+   * Повернуть тайл вокруг вершины `idx` на `angle` градусов/радиан в зависомости от `angleMode`
+   * @param {number} angle угол
+   * @param {integer} idx индекс вершины
+   * @param {RADIANS|DEGREES} angleMode режим измерения угла
+   * @returns {Tile} возвращает ссылку на этот же тайл для возможности цепного вызова подобных функций
+   * @example 
+   * tile.rotate(PI/2).move(createVector(50, 30));
+   */
   rotate(angle, idx = 0, angleMode = RADIANS) {
     const basis = this.points[idx].copy();
     const mult = angleMode == DEGREES ? 360 / TWO_PI : 1;
     this.points = this.points.map(a => a.sub(basis).rotate(angle * mult).add(basis));
     return this;
   }
+  /**
+   * переместить тайл относительно текущей позиции на `offset`
+   * @param {p5.Vector} offset вектор смещения
+   * @returns {Tile}
+   */
   move(offset) {
     this.points.map(pt => pt.add(offset));
     return this;
   }
+
+  /**
+   * переместить тайл абсолютно, установив вершину с индексом `idx` в точку `pos`
+   * @param {p5.Vector} pos смещение
+   * @param {integer} idx индекс вершины
+   * @returns {Tile}
+   */
   setpos(pos, idx = 0) {
     const basis = this.points[idx].copy();
     this.points = this.points.map(a => a.sub(basis).add(offset));

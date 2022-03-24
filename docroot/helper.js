@@ -84,12 +84,24 @@ Array.prototype.deep_copy = function () {
   });
 }
 
+/**
+ * Returns `-1` on `val`ues less than `0` and `1` else
+ * @param {number} val 
+ * @returns 
+ */
 function sign(val) {
   if (val < 0)
     return -1;
   return 1;
 }
 
+/**
+ * Получить расстояние между вершинами тайла
+ * @param {Tile} tile тайл
+ * @param {integer} i первая вершина
+ * @param {integer} j вторая вершина
+ * @returns {integer} расстояние между вершинами тайла
+ */
 function getDistVec(tile, i, j) {
   return tile.points[i].copy().sub(tile.points[j]);
 };
